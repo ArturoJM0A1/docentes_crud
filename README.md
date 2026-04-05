@@ -1,61 +1,56 @@
 # Docentes CRUD
 
-API REST sencilla para gestionar docentes con operaciones CRUD usando **Node.js**, **Express** y **MySQL**.
+Aplicacion full stack para gestionar docentes con operaciones CRUD. El proyecto esta dividido en:
 
-El proyecto actualmente contiene la parte de **backend** en la carpeta `server`. Las carpetas `client` y `docs` existen en el repositorio, pero por ahora no incluyen implementacion.
+- `server`: API REST con Node.js, Express y MySQL.
+- `client`: SPA con React, Vite, Tailwind CSS, Axios y Lucide React.
 
-## Objetivo del proyecto
+## Que hace el proyecto
 
-Este proyecto permite administrar un listado de docentes mediante una API que soporta:
+La aplicacion permite:
 
-- Consultar todos los docentes
-- Consultar un docente por su ID
-- Registrar un nuevo docente
-- Actualizar un docente existente
-- Eliminar un docente
+- Listar docentes
+- Registrar nuevos docentes
+- Editar docentes existentes
+- Eliminar docentes por ID
+- Consultar los datos desde una interfaz web conectada al backend
 
-Es un proyecto apropiado para practicar:
+## Tecnologias
 
-- Arquitectura basica cliente-servidor
-- Creacion de APIs REST con Express
-- Conexion a bases de datos MySQL
-- Operaciones CRUD
-- Uso de variables de entorno con `dotenv`
-
-## Tecnologias utilizadas
+### Backend
 
 - `Node.js`
 - `Express`
 - `MySQL2`
-- `dotenv`
 - `cors`
-- `nodemon` para desarrollo
+- `dotenv`
+- `nodemon`
+
+### Frontend
+
+- `React`
+- `Vite`
+- `Tailwind CSS`
+- `Axios`
+- `react-router-dom`
+- `lucide-react`
 
 ## Estructura del proyecto
 
 ```text
 docentes_crud/
-|-- client/        # Carpeta reservada para el frontend (sin implementacion actual)
-|-- docs/          # Carpeta reservada para documentacion adicional
-`-- server/
-    |-- db.js      # Configuracion y conexion a MySQL
-    |-- index.js   # Servidor Express y rutas del CRUD
-    |-- package.json
-    `-- package-lock.json
+|-- client/
+|   |-- src/
+|   |-- .env.example
+|   `-- package.json
+|-- docs/
+|-- server/
+|   |-- db.js
+|   |-- index.js
+|   |-- .env.example
+|   `-- package.json
+`-- README.md
 ```
-
-## Funcionalidad actual
-
-La API expone rutas para trabajar con la tabla `docentes`, que maneja los siguientes campos:
-
-- `id`
-- `nombre`
-- `correo`
-- `telefono`
-- `titulo`
-- `area_academica`
-- `dedicacion`
-- `anios_experiencia`
 
 ## Requisitos previos
 
@@ -65,33 +60,9 @@ Antes de ejecutar el proyecto, asegurate de tener instalado:
 - `npm`
 - `MySQL Server`
 
-## Instalacion
-
-### 1. Entrar al proyecto
-
-```bash
-cd docentes_crud
-```
-
-### 2. Entrar a la carpeta del servidor
-
-```bash
-cd server
-```
-
-### 3. Instalar dependencias
-
-```bash
-npm install
-```
-
 ## Configuracion de la base de datos
 
-El backend utiliza variables de entorno para conectarse a MySQL.
-
 ### 1. Crear la base de datos
-
-Puedes crear una base llamada `docentes_db` con el siguiente script:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS docentes_db;
@@ -109,9 +80,9 @@ CREATE TABLE IF NOT EXISTS docentes (
 );
 ```
 
-### 2. Crear el archivo `.env`
+### 2. Configurar variables de entorno del backend
 
-Dentro de la carpeta `server`, crea un archivo llamado `.env` con un contenido similar a este:
+Copia `server/.env.example` a `server/.env` y ajusta tus credenciales:
 
 ```env
 DB_HOST=localhost
@@ -120,197 +91,141 @@ DB_PASSWORD=tu_password
 DB_NAME=docentes_db
 ```
 
-### 3. Notas importantes sobre la conexion
+Nota:
 
-- Si no defines variables de entorno, el proyecto usa valores por defecto desde el codigo.
-- Aun asi, lo recomendable es **configurar siempre tu archivo `.env`** para evitar dependencias en credenciales locales.
+- El backend tiene valores por defecto en el codigo, pero lo recomendable es usar siempre `server/.env`.
 
-## Ejecucion del proyecto
+### 3. Configurar variables de entorno del frontend
 
-Desde la carpeta `server`, inicia el servidor con:
+El frontend ya apunta por defecto a `http://localhost:3001`, pero si quieres dejarlo explicito puedes copiar `client/.env.example` a `client/.env`:
+
+```env
+VITE_API_URL=http://localhost:3001
+```
+
+## Instalacion
+
+Instala dependencias por separado para backend y frontend.
+
+### Backend
 
 ```bash
+cd server
+npm install
+```
+
+### Frontend
+
+```bash
+cd client
+npm install
+```
+
+## Como ejecutar el backend y el frontend
+
+Necesitas dos terminales abiertas al mismo tiempo.
+
+### Terminal 1: iniciar backend
+
+```bash
+cd server
 npm run dev
 ```
 
-Si todo esta correcto, el backend se ejecutara en:
+El backend quedara disponible en:
 
 ```text
 http://localhost:3001
 ```
 
-## Endpoints disponibles
+### Terminal 2: iniciar frontend
 
-La base URL de la API es:
+```bash
+cd client
+npm run dev
+```
+
+El frontend quedara disponible normalmente en:
+
+```text
+http://localhost:5173
+```
+
+## Flujo recomendado de arranque
+
+1. Inicia MySQL.
+2. Verifica que exista la base `docentes_db` y la tabla `docentes`.
+3. Inicia el backend con `npm run dev` dentro de `server`.
+4. Inicia el frontend con `npm run dev` dentro de `client`.
+5. Abre `http://localhost:5173` en el navegador.
+
+## API REST disponible
+
+Base URL:
 
 ```text
 http://localhost:3001
 ```
 
-### 1. Obtener todos los docentes
+### Endpoints
 
-**GET** `/docentes`
+- `GET /docentes`: lista todos los docentes.
+- `GET /docentes/:id`: obtiene un docente por ID.
+- `POST /docentes`: crea un docente.
+- `PUT /docentes/:id`: actualiza un docente existente.
+- `DELETE /docentes/:id`: elimina un docente.
 
-Devuelve la lista completa de docentes registrados.
-
-Ejemplo:
-
-```bash
-curl http://localhost:3001/docentes
-```
-
-Respuesta esperada:
-
-```json
-[
-  {
-    "id": 1,
-    "nombre": "Ana Torres",
-    "correo": "ana@correo.com",
-    "telefono": "5551234567",
-    "titulo": "Maestra en Sistemas",
-    "area_academica": "Ingenieria en Software",
-    "dedicacion": "Tiempo Completo",
-    "anios_experiencia": 8
-  }
-]
-```
-
-### 2. Obtener un docente por ID
-
-**GET** `/docentes/:id`
-
-Consulta un docente especifico a partir de su identificador.
-
-Ejemplo:
-
-```bash
-curl http://localhost:3001/docentes/1
-```
-
-### 3. Crear un docente
-
-**POST** `/docentes`
-
-Registra un nuevo docente en la base de datos.
-
-Campos requeridos:
-
-- `nombre`
-- `correo`
-- `telefono`
-- `titulo`
-- `area_academica`
-- `dedicacion`
-- `anios_experiencia`
-
-Ejemplo:
-
-```bash
-curl -X POST http://localhost:3001/docentes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Ana Torres",
-    "correo": "ana@correo.com",
-    "telefono": "5551234567",
-    "titulo": "Maestra en Sistemas",
-    "area_academica": "Ingenieria en Software",
-    "dedicacion": "Tiempo Completo",
-    "anios_experiencia": 8
-  }'
-```
-
-### 4. Actualizar un docente
-
-**PUT** `/docentes/:id`
-
-Actualiza la informacion de un docente existente.
-
-Ejemplo:
-
-```bash
-curl -X PUT http://localhost:3001/docentes/1 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "nombre": "Ana Torres",
-    "correo": "ana.actualizada@correo.com",
-    "telefono": "5551234567",
-    "titulo": "Doctora en Sistemas",
-    "area_academica": "Ingenieria en Software",
-    "dedicacion": "Tiempo Completo",
-    "anios_experiencia": 10
-  }'
-```
-
-### 5. Eliminar un docente
-
-**DELETE** `/docentes/:id`
-
-Elimina un docente a partir de su ID.
-
-Ejemplo:
-
-```bash
-curl -X DELETE http://localhost:3001/docentes/1
-```
-
-## Validaciones implementadas
-
-Actualmente el backend valida lo siguiente en las operaciones de creacion y actualizacion:
-
-- Todos los campos de texto son obligatorios
-- `anios_experiencia` debe ser numerico
-- `anios_experiencia` no puede ser negativo
-
-Si alguna validacion falla, la API responde con codigo `400`.
-
-## Respuestas de error comunes
-
-### Error de validacion
+### Body esperado para crear o actualizar
 
 ```json
 {
-  "error": "todos los campos son requeridos"
-}
-```
-
-### Error de base de datos
-
-```json
-{
-  "error": "error al guardar al docente"
+  "nombre": "Ana Torres",
+  "correo": "ana@correo.com",
+  "telefono": "5551234567",
+  "titulo": "Maestra en Sistemas",
+  "area_academica": "Ingenieria en Software",
+  "dedicacion": "Tiempo Completo",
+  "anios_experiencia": 8
 }
 ```
 
 ## Scripts disponibles
 
-En `server/package.json` estan configurados estos scripts:
+### `server/package.json`
 
-- `npm run dev`: inicia el servidor con `nodemon`
-- `npm test`: actualmente no tiene pruebas configuradas
+- `npm run dev`: inicia el backend con `nodemon`
 
-## Estado actual del proyecto
+### `client/package.json`
 
-Situacion real del repositorio al dia de hoy:
+- `npm run dev`: inicia Vite en modo desarrollo
+- `npm run build`: genera la version de produccion del frontend
+- `npm run preview`: sirve localmente el build generado
 
-- El backend del CRUD si esta implementado
-- La conexion a MySQL esta configurada en `server/db.js`
-- Las rutas del CRUD estan definidas en `server/index.js`
-- La carpeta `client` todavia no contiene frontend
-- La carpeta `docs` todavia no contiene documentacion adicional
-- No hay pruebas automaticas configuradas por ahora
+## Verificacion rapida
 
-## Posibles mejoras
+Si quieres validar que todo este funcionando:
 
-Algunas mejoras naturales para la siguiente etapa del proyecto serian:
+1. Ejecuta el backend.
+2. Abre `http://localhost:3001/docentes` y confirma que responde JSON.
+3. Ejecuta el frontend.
+4. Abre `http://localhost:5173`.
+5. Crea, edita y elimina un docente desde la interfaz.
 
-- Crear el frontend en la carpeta `client`
-- Agregar un archivo `.env.example`
-- Incorporar validaciones mas robustas
-- Manejar mejor los errores por recurso no encontrado
-- Anadir pruebas para la API
-- Separar rutas, controladores y configuracion en modulos
+## Estado actual
 
-## Autor
+Actualmente el repositorio incluye:
 
-Proyecto orientado al aprendizaje y practica de un CRUD completo con Node.js, Express y MySQL.
+- Backend CRUD funcional con Express y MySQL
+- Frontend SPA funcional con React y Tailwind
+- Formulario reutilizable para crear y editar
+- Tabla de docentes con acciones CRUD
+- Servicio Axios para consumo del API
+- Notificaciones visuales para operaciones exitosas o fallidas
+
+## Comando de scaffold usado para el frontend
+
+Si quisieras recrear manualmente el frontend desde cero, la base equivalente es:
+
+```bash
+npm create vite@latest client -- --template react
+```
