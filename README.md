@@ -1,4 +1,4 @@
-# Docentes CRUD
+# Docentes CRUD API REST Node.js, Express y MySQL
 
 Aplicacion full stack para gestionar docentes con operaciones CRUD. El proyecto esta dividido en:
 
