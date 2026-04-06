@@ -28,6 +28,8 @@
 
   #root {
     @apply min-h-screen;
+   padding: 0;
+
   }
 
   h1,

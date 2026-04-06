@@ -152,7 +152,7 @@ function DashboardPage() {
     <main className="shell relative min-h-screen px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
       <ToastContainer toasts={toasts} />
 
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+      <section className="mx-auto flex w-full max-w-1xl flex-col gap-6">
         <div className="panel overflow-hidden px-6 py-8 sm:px-8 lg:px-10">
           <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
             <div className="fade-up">
